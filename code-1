@@ -1,0 +1,53 @@
+// Consecutive Xor
+// Chef has an array A of length N. He can perform the following operation on 
+// A:1) Select an index (1≤i≤N−1) and select an integer X (1≤X<2^20).
+//  2) Set Ai:=(Ai⊕X) and Ai+1:=(Ai+1⊕X).
+// Determine if Chef can make all the elements of A equal by applying the above operation any number of times (possibly zero).
+
+// logic
+// from line 20 to 23 taking input. try to make every element zero by doing this. In for loop i am taking two numbers and doing xor with first number
+// so one number become zero. as arr[i]=arr[i]^arr[i] (=0) and arr[i+1]=arr[i+1]^arr[i]. now every number will become zero except the last one as
+// if last number is also zero so all number are same print yes.
+// now there is two condition if total number(size of array) is even we cant make all number are equal to last as always we
+// have to take two which take the last number also so print "NO". But if total number is odd we can make all other number equal to last number by applying xor to every pair. so print "YES"
+
+
+#include <bits/stdc++.h>
+using namespace std;
+
+#define test                            int t; cin>>t; while(t--)
+#define iter(i, a, n)                    for (int i = a; i < n; i++)
+
+
+int main() {
+	// your code goes here
+	ios_base::sync_with_stdio(false);
+  cin.tie(NULL); 
+  cout.tie(NULL);
+  
+  test{
+    int n;
+    cin>>n;
+    vector<int> v(n);
+    iter(i,0,n){
+      cin>>v[i];
+    }
+    for(int i=1;i<n;i++){
+      v[i]=v[i]^v[i-1];
+      v[i-1]=0;
+    }
+    if(v[n-1]==0){
+      cout<<"YES"<<endl;
+      continue;
+    }
+    if(n&1){
+      cout<<"YES"<<endl;
+    }else{
+      cout<<"NO"<<endl;
+    }
+    
+    
+  }
+  
+	return 0;
+}
