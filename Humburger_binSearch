@@ -1,0 +1,159 @@
+
+
+// Humburger
+
+// Polycarpus loves hamburgers very much. He especially adores the hamburgers he makes with his own hands. Polycarpus thinks that there are only three decent ingredients to make hamburgers from: a bread, sausage and cheese. He writes down the recipe of his favorite "Le Hamburger de Polycarpus" as a string of letters 'B' (bread), 'S' (sausage) и 'C' (cheese). The ingredients in the recipe go from bottom to top, for example, recipe "ВSCBS" represents the hamburger where the ingredients go from bottom to top as bread, sausage, cheese, bread and sausage again.
+
+// Polycarpus has nb pieces of bread, ns pieces of sausage and nc pieces of cheese in the kitchen. Besides, the shop nearby has all three ingredients, the prices are pb rubles for a piece of bread, ps for a piece of sausage and pc for a piece of cheese.
+
+// Polycarpus has r rubles and he is ready to shop on them. What maximum number of hamburgers can he cook? You can assume that Polycarpus cannot break or slice any of the pieces of bread, sausage or cheese. Besides, the shop has an unlimited number of pieces of each ingredient.
+
+
+
+
+
+
+// Brute force 
+// #include <bits/stdc++.h>
+// using namespace std;
+
+// int main(){
+
+// 	string str;
+// 	long long int nb,ns,nc;
+// 	long long int pb,ps,pc;
+// 	long long int r;
+
+// 	cin>>str;
+	
+// 	cin>>nb>>ns>>nc;
+// 	cin>>pb>>ps>>pc;
+// 	cin>>r;
+
+// 	int cb=0,cs=0,cc=0;
+// 	for(int i=0;i<str.length();i++){
+// 		if(str[i]=='B'){
+// 			cb++;
+// 		}else if(str[i]=='S'){
+// 			cs++;
+// 		}else{
+// 			cc++;
+// 		}
+// 	}
+
+// 	cout<<cb<<" "<<cs<<" "<<cc<<endl;
+// 	long long int count=0;
+// 	while(r>0){
+// 		cout<<"HI"<<endl;
+// 		nb-=cb;
+// 		ns-=cs;
+// 		nc-=cc;
+// 		if(nb<0){
+// 			r=r+(pb*nb);
+// 			nb=0;
+// 			if(r<0){
+// 				break;
+// 			}
+// 		}
+// 		if(ns<0){
+// 			r=r+(ps*ns);
+// 			ns=0;
+// 			if(r<0){
+// 				break;
+// 			}
+// 		}
+// 		if(nc<0){
+// 			r=r+(pc*nc);
+// 			nc=0;
+// 			if(r<0){
+// 				break;
+// 			}
+// 		}
+// 		count++;
+// 	}
+// 	cout<<count<<endl;
+
+// 	return 0;
+// }
+
+
+
+// Bindary_search
+#include<bits/stdc++.h>
+using namespace std;
+
+bool check(long long x,int cb,int cs,int cc,int nb,int ns,int nc,int pb,int ps,int pc,long long r){
+	long long reqB=x*cb-nb;
+	long long reqS=x*cs-ns;
+	long long reqC=x*cc-nc;
+
+	if(reqB<0){
+		reqB=0;
+	}
+
+	if(reqS<0){
+		reqS=0;
+	}
+
+	if(reqC<0){
+		reqC=0;
+	}
+	long long p1=reqB*pb;
+	long long p2=reqS*ps;
+	long long p3=reqC*pc;
+  
+  long long sum = p1+p2+p3;
+  
+
+	if(sum>r){
+		return false;
+	}else{
+  
+		return true;
+	}
+}
+
+int main(){
+
+
+
+
+	string str;
+	int nb,ns,nc;
+	int pb,ps,pc;
+	long long int r;
+
+	cin>>str;
+	
+	cin>>nb>>ns>>nc;
+	cin>>pb>>ps>>pc;
+	cin>>r;
+
+	int cb=0,cs=0,cc=0;
+	for(int i=0;i<str.length();i++){
+		if(str[i]=='B'){
+			cb++;
+		}else if(str[i]=='S'){
+			cs++;
+		}else{
+			cc++;
+		}
+	}
+
+	long long l=0,h=1e14;
+	long long ans;
+  // cout<<cb<<cs<<cc<<endl;
+	while(l<=h){
+		long long mid = l + (h-l)/2;
+		if(check(mid,cb,cs,cc,nb,ns,nc,pb,ps,pc,r)==true){
+      // cout<<mid<<endl;
+			ans=mid;
+			l=mid+1;
+		}else{
+			h=mid-1;
+		}
+	}
+	cout<<ans<<endl;
+
+	return 0;
+}
