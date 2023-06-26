@@ -1,0 +1,73 @@
+This problem is given in two versions that differ only by constraints. If you can solve this problem in large constraints, then you can just write a single solution to the both versions. If you find the problem too difficult in large constraints, you can write solution to the simplified version only.
+
+Waking up in the morning, Apollinaria decided to bake cookies. To bake one cookie, she needs n ingredients, and for each ingredient she knows the value ai — how many grams of this ingredient one needs to bake a cookie. To prepare one cookie Apollinaria needs to use all n ingredients.
+
+Apollinaria has bi gram of the i-th ingredient. Also she has k grams of a magic powder. Each gram of magic powder can be turned to exactly 1 gram of any of the n ingredients and can be used for baking cookies.
+
+Your task is to determine the maximum number of cookies, which Apollinaria is able to bake using the ingredients that she has and the magic powder
+
+
+
+#include<bits/stdc++.h>
+using namespace std;
+
+bool check(long long mid,vector<long long> &req1,vector<long long> &aval1,long long n,long long k){
+	// cout<<mid<<endl;
+	vector<long long> req=req1;
+	vector<long long> aval=aval1;
+	for(int i=0;i<n;i++){
+		req[i]=req[i]*mid;
+	}
+	long long extra=0;
+	for(int i=0;i<n;i++){
+		long long temp=aval[i]-req[i];
+		if(temp<0){
+			extra+=abs(temp);
+		}
+	}
+	if(extra==0){
+		return true;
+	}else{
+		if(extra<=k){
+			return true;
+		}else{
+
+			return false;
+		}
+	}
+
+}
+
+int main(){
+	long long n,k;
+
+	cin>>n>>k;
+	vector<long long> aval(n);
+	vector<long long> req(n);
+
+	
+	for(int i=0;i<n;i++){
+		cin>>req[i];
+	}
+	for(int i=0;i<n;i++){
+		cin>>aval[i];
+	}
+
+
+	long long l=0,h=1e14;
+	long long ans=0 ;
+
+	while(l<=h){
+		long long mid = l + (h-l)/2;
+		if(check(mid,req,aval,n,k)){
+			ans=mid;
+			l=mid+1;
+		}else{
+			h=mid-1;
+		}
+	}
+
+	cout<<ans<<endl;
+
+	return 0;
+}
