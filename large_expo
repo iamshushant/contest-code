@@ -1,0 +1,41 @@
+
+a<=10^18 b<=10^18  M<=10^18
+
+#include<bits/stdc++.h>
+using namespace std;
+
+long long M = 1e18; 
+
+
+long long binMult(long long a,long long b){
+	long long ans=0;
+	while(b>0){
+		if(b&1){
+			ans=(ans+a)%M;
+		}
+		a=(a+a)%M;
+		b=b>>1;
+	}
+	return ans;
+}
+
+long long largeExpo(long long a,long long b){
+	long long ans=1;
+	while(b>0){
+		if(b&1){
+			ans=binMult(ans,a);
+		}
+		a=binMult(a,a);
+		b=b>>1;
+	}
+	return ans;
+}
+
+
+
+int main(){
+
+	cout<<largeExpo(288,10)<<endl;
+ 	cout<<fixed<<pow(288,10)<<endl;
+	return 0;
+}
