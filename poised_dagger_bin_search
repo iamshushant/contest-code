@@ -1,0 +1,100 @@
+C. Poisoned Dagger
+
+Monocarp is playing yet another computer game. In this game, his character has to kill a dragon. The battle with the dragon lasts 100500
+ seconds, during which Monocarp attacks the dragon with a poisoned dagger. The i
+-th attack is performed at the beginning of the ai
+-th second from the battle start. The dagger itself does not deal damage, but it applies a poison effect on the dragon, which deals 1
+ damage during each of the next k
+ seconds (starting with the same second when the dragon was stabbed by the dagger). However, if the dragon has already been poisoned, then the dagger updates the poison effect (i.e. cancels the current poison effect and applies a new one).
+
+For example, suppose k=4 and Monocarp stabs the dragon during the seconds 2 4and 10 .Then the poison effect is applied at the start of the 2
+-nd second and deals 1
+ damage during the 2
+-nd and 3
+-rd seconds; then, at the beginning of the 4
+-th second, the poison effect is reapplied, so it deals exactly 1
+ damage during the seconds 4
+, 5
+, 6
+ and 7
+; then, during the 10
+-th second, the poison effect is applied again, and it deals 1
+ damage during the seconds 10
+, 11
+, 12
+ and 13
+. In total, the dragon receives 10
+ damage.
+
+Monocarp knows that the dragon has h
+ hit points, and if he deals at least h
+ damage to the dragon during the battle — he slays the dragon. Monocarp has not decided on the strength of the poison he will use during the battle, so he wants to find the minimum possible value of k
+ (the number of seconds the poison effect lasts) that is enough to deal at least h
+ damage to the dragon.
+
+
+
+
+
+
+
+
+
+
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long int
+
+bool check(ll mid,ll n,vector<int> &v,ll h){
+	ll count=0;
+	for(ll i=0;i<n;i++){
+		if(i==n-1){
+			count+=mid;
+		}else{
+			if((v[i]+mid)<v[i+1]){
+				count+=mid;
+			}else{
+				count+=(v[i+1]-v[i]);
+			}
+		}
+	}
+	if(count>=h){
+		return true;
+	}else{
+		return false;
+	}
+}
+
+int main(){
+
+
+	 #ifndef ONLINE_JUDGE
+	freopen("input.txt","r",stdin);
+	freopen("output.txt","w",stdout);
+	#endif
+
+	int t;
+	cin>>t;
+	while(t--){
+		ll n,h;
+		cin>>n>>h;
+		vector<int> v(n);
+		for(int i=0;i<n;i++){
+			cin>>v[i];
+		}
+
+		ll low=1,high=h;
+		ll ans=0;
+		while(low<=high){
+			ll  mid = low+(high-low)/2;
+			if(check(mid,n,v,h)){
+				ans=mid;
+				high=mid-1;
+			}else{
+				low=mid+1;
+			}
+		}
+		cout<<ans<<endl;
+	}
+	return 0;
+}
